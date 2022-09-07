@@ -7,6 +7,7 @@ import { ENV_ENV_PREFIX_KEY } from '../../src/constants'
 import { Bee, BeeDebug, Reference } from '@ethersphere/bee-js'
 import { DockerError } from '../../src/utils/docker'
 import { findContainer, waitForUsablePostageStamp } from '../utils/docker'
+import axios from 'axios'
 
 let testFailed = false
 
@@ -95,6 +96,9 @@ describe('start command', () => {
       wrapper(async () => {
         // As spinning the cluster with --detach the command will exit once the cluster is up and running
         await run(['start', '--fairos'])
+
+        const data = (await axios.get('http://localhost:9090')).data
+        expect(data).toEqual('OK\n')
 
         await expect(findContainer(docker, 'blockchain')).resolves.toBeDefined()
         await expect(findContainer(docker, 'worker-1')).resolves.toBeDefined()
