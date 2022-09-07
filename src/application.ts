@@ -1,6 +1,7 @@
 import { Application } from 'furious-commander/dist/application'
 import PackageJson from '../package.json'
 
+
 export const application: Application = {
   name: 'FDP Play',
   command: 'fdp-play',
